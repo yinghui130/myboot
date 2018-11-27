@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.jms.BytesMessage;
+import javax.jms.JMSException;
 import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
@@ -16,21 +17,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import cn.customs.myboot.config.DirConfig;
+import cn.customs.myboot.jms.JmsConfig;
+import cn.customs.myboot.jms.MessageSender;
 import cn.customs.myboot.jms.SendMessage;
 import cn.customs.myboot.utils.DateUtils;
 import cn.customs.myboot.utils.FileUtils;
 import cn.customs.myboot.utils.SpringUtils;
 
 public class MybootFileListener implements FileAlterationListener {
-	private SendMessage sender;
+	//private SendMessage sender;
 	private DirConfig dirConfig;
 	private BytesMessage bytesMessage;
-   
-	public MybootFileListener() {
+   private MessageSender messageSender;
+	public MybootFileListener() throws JMSException {
 		// TODO Auto-generated constructor stub
-		this.sender = SpringUtils.getBean(SendMessage.class);
+		//this.sender = SpringUtils.getBean(SendMessage.class);
 		this.dirConfig = SpringUtils.getBean(DirConfig.class);
 		this.bytesMessage = SpringUtils.getBean(BytesMessage.class);
+		messageSender=new MessageSender(SpringUtils.getBean(JmsConfig.class));
+		this.bytesMessage=this.messageSender.getBytesMessage();
 	}
 
 	@Override
@@ -69,6 +74,8 @@ public class MybootFileListener implements FileAlterationListener {
 				for (File f : fileList) {
 					if (f.isFile()) {
 						try {
+							//messageSender=new MessageSender(SpringUtils.getBean(JmsConfig.class));
+							//BytesMessage bytesMessage=this.messageSender.getBytesMessage();
 							byte[] content = FileUtils.getRandomAccessFileContent(f);
 							if (content.length > 0) {
 								bytesMessage.clearBody();
@@ -76,9 +83,10 @@ public class MybootFileListener implements FileAlterationListener {
 								bytesMessage.writeBytes(content);
 								bytesMessage.setStringProperty("fileName", f.getName());
 								bytesMessage.setJMSMessageID(f.getName());
-								sender.send(bytesMessage);
-								
+								//sender.send(bytesMessage);
+								messageSender.Send(bytesMessage);
 							}
+							//messageSender.Close();
 							Path backup = Paths.get(dirConfig.getBackupDir(), "Send",
 									DateUtils.getDateString("yyyy-MM-dd"));
 							FileUtils.moveFile(f, backup.toString());

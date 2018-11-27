@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsOperations;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SendMessage {
 	@Autowired
 	JmsOperations jmsOperations;

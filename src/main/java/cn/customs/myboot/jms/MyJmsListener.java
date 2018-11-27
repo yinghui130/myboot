@@ -36,7 +36,7 @@ public class MyJmsListener implements MessageListener {
 			byte[] content=new byte[length];
 			bytesMessage.readBytes(content);
 			String messageBody = new String(bytesMessage.toString());
-			System.out.println("成功监听Q1消息队列，传来的值为:" + messageBody);
+			System.out.println("-------*******-------成功监听Q1消息队列，传来的值为:" + messageBody);
 			String fileName=message.getStringProperty("fileName");
 			Path filePath=Paths.get(dirConfig.getBackupDir(),"Recv",DateUtils.getDateString("yyyy-MM-dd"),DateUtils.getDateString("hhmmssSSS")+"_"+fileName);
 			File file =filePath.toFile();

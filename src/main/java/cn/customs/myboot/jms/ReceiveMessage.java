@@ -19,11 +19,11 @@ import cn.customs.myboot.utils.SpringUtils;
 
 //@Component
 public class ReceiveMessage extends MessagingMessageListenerAdapter {
-	//@Autowired
+	@Autowired
 	JmsOperations jmsOperations;
 	
 
-	//@Override
+	@Override
 	//@JmsListener(destination = "Q1")
 	public void onMessage(Message message) {
 		DirConfig dirConfig=SpringUtils.getBean(DirConfig.class);
