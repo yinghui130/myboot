@@ -22,7 +22,7 @@ import com.ibm.msg.client.wmq.WMQConstants;
 public class JmsConfig {   
     @Value("${project.mq.host}")
     private String host;
-    @Value("${project.mq.port}")
+	@Value("${project.mq.port}")
     private Integer port;
     @Value("${project.mq.queue-manager}")
     private String queueManager;
@@ -36,7 +36,55 @@ public class JmsConfig {
     private long receiveTimeout;
     @Value("${project.mq.ccsid}")
     private int ccsid;
-   
+    
+    public String getHost() {
+		return host;
+	}
+	public void setHost(String host) {
+		this.host = host;
+	}
+	public Integer getPort() {
+		return port;
+	}
+	public void setPort(Integer port) {
+		this.port = port;
+	}
+	public String getQueueManager() {
+		return queueManager;
+	}
+	public void setQueueManager(String queueManager) {
+		this.queueManager = queueManager;
+	}
+	public String getChannel() {
+		return channel;
+	}
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public long getReceiveTimeout() {
+		return receiveTimeout;
+	}
+	public void setReceiveTimeout(long receiveTimeout) {
+		this.receiveTimeout = receiveTimeout;
+	}
+	public int getCcsid() {
+		return ccsid;
+	}
+	public void setCcsid(int ccsid) {
+		this.ccsid = ccsid;
+	}
     @Bean
     public MQQueueConnectionFactory mqQueueConnectionFactory() {
         MQQueueConnectionFactory mqQueueConnectionFactory = new MQQueueConnectionFactory();
