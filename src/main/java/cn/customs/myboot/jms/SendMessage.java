@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 //@Component
 public class SendMessage {
-	@Autowired
+	/*@Autowired
 	JmsOperations jmsOperations;
 	@Autowired
 	BytesMessage bytesMessage;
@@ -32,5 +32,5 @@ public class SendMessage {
 		System.out.println("开始发送消息");
 		bytesMessage.writeBytes(content);
 		jmsOperations.convertAndSend(queueName, bytesMessage);
-	}
+	}*/
 }

@@ -1,43 +1,35 @@
 package cn.customs.myboot.file;
 
 import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.commons.io.monitor.FileAlterationObserver;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import cn.customs.myboot.config.DirConfig;
-import cn.customs.myboot.jms.JmsConfig;
+import cn.customs.myboot.config.MqJsonConfig;
+import cn.customs.myboot.config.Send;
+import cn.customs.myboot.file.filter.SendFilter;
+import cn.customs.myboot.file.filter.impl.FileSendFilter;
 import cn.customs.myboot.jms.MessageSender;
-import cn.customs.myboot.jms.SendMessage;
+import cn.customs.myboot.jms.config.SendJmsConfig;
 import cn.customs.myboot.utils.DateUtils;
 import cn.customs.myboot.utils.FileUtils;
 import cn.customs.myboot.utils.SpringUtils;
 
 public class MybootFileListener implements FileAlterationListener {
-	//private SendMessage sender;
-	private DirConfig dirConfig;
-	private BytesMessage bytesMessage;
-   private MessageSender messageSender;
-	public MybootFileListener() throws JMSException {
-		// TODO Auto-generated constructor stub
-		//this.sender = SpringUtils.getBean(SendMessage.class);
-		this.dirConfig = SpringUtils.getBean(DirConfig.class);
-		this.bytesMessage = SpringUtils.getBean(BytesMessage.class);
-		messageSender=new MessageSender(SpringUtils.getBean(JmsConfig.class));
-		this.bytesMessage=this.messageSender.getBytesMessage();
+	private FileSendFilter fileSendFilter;
+	public MybootFileListener() {
+		this.fileSendFilter=SpringUtils.getBean(FileSendFilter.class);
 	}
-
 	@Override
 	public void onStart(FileAlterationObserver observer) {
 		// TODO Auto-generate method stub
@@ -64,41 +56,10 @@ public class MybootFileListener implements FileAlterationListener {
 
 	@Override
 	public void onFileCreate(File file) {
-		// TODO Auto-generated method stub
 		System.out.println("onFileCreate :" + file.getName());
-
 		try {
-			if (file.isFile()) {
-				String dirPath = file.getParent();
-				File[] fileList = new File(dirPath).listFiles();
-				for (File f : fileList) {
-					if (f.isFile()) {
-						try {
-							//messageSender=new MessageSender(SpringUtils.getBean(JmsConfig.class));
-							//BytesMessage bytesMessage=this.messageSender.getBytesMessage();
-							byte[] content = FileUtils.getRandomAccessFileContent(f);
-							if (content.length > 0) {
-								bytesMessage.clearBody();
-								bytesMessage.clearProperties();
-								bytesMessage.writeBytes(content);
-								bytesMessage.setStringProperty("fileName", f.getName());
-								bytesMessage.setJMSMessageID(f.getName());
-								//sender.send(bytesMessage);
-								messageSender.Send(bytesMessage);
-							}
-							//messageSender.Close();
-							Path backup = Paths.get(dirConfig.getBackupDir(), "Send",
-									DateUtils.getDateString("yyyy-MM-dd"));
-							FileUtils.moveFile(f, backup.toString());
-						} catch (Exception e1) {
-							// TODO: handle exception
-							e1.printStackTrace();
-						}
-
-					}
-				}
-			}
-		} catch (Exception e) { // TODO: handle exception
+			fileSendFilter.SendHandler(file.getParent());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

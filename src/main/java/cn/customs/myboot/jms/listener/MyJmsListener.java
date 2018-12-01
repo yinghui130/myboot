@@ -1,4 +1,4 @@
-package cn.customs.myboot.jms;
+package cn.customs.myboot.jms.listener;
 
 import java.io.File;
 import java.nio.file.Path;

@@ -18,6 +18,7 @@ import com.ibm.msg.client.jms.JmsConnectionFactory;
 import com.ibm.msg.client.jms.JmsFactoryFactory;
 import com.ibm.msg.client.wmq.WMQConstants;
 
+import cn.customs.myboot.jms.config.SendJmsConfig;
 import cn.customs.myboot.utils.SpringUtils;
 
 public class MessageSender {
@@ -27,22 +28,7 @@ public class MessageSender {
 	MessageProducer producer = null;
 	JmsOperations jmsOperations;
 	
-	public MessageSender(JmsConfig jmsConfig) throws JMSException {
-		/*
-		JmsFactoryFactory ff = JmsFactoryFactory.getInstance(WMQConstants.WMQ_PROVIDER);
-		JmsConnectionFactory cf = ff.createConnectionFactory();
-		cf.setStringProperty(WMQConstants.WMQ_QUEUE_MANAGER, jmsConfig.getQueueManager());
-		cf.setStringProperty(WMQConstants.WMQ_CCSID, "1381");
-		cf.setStringProperty(WMQConstants.WMQ_HOST_NAME, jmsConfig.getHost());
-		cf.setIntProperty(WMQConstants.WMQ_PORT, jmsConfig.getPort());
-		cf.setStringProperty(WMQConstants.WMQ_CHANNEL, jmsConfig.getChannel());
-		cf.setIntProperty(WMQConstants.WMQ_CONNECTION_MODE, WMQConstants.WMQ_CM_BINDINGS);
-		cf.setStringProperty(WMQConstants.USERID, jmsConfig.getUsername());
-		cf.setStringProperty(WMQConstants.PASSWORD, jmsConfig.getPassword());
-		cf.setBooleanProperty(WMQConstants.USER_AUTHENTICATION_MQCSP, true);
-		connection = cf.createConnection();*/
-		//JmsConfig jmsConfig = SpringUtils.getBean(JmsConfig.class);
-		//jmsConfig = SpringUtils.getBean(JmsConfig.class);
+	public MessageSender(SendJmsConfig jmsConfig) throws JMSException {
 		MQQueueConnectionFactory mqQueueConnectionFactory = jmsConfig.mqQueueConnectionFactory();
 		UserCredentialsConnectionFactoryAdapter userCredentialsConnectionFactoryAdapter = jmsConfig
 				.userCredentialsConnectionFactoryAdapter(mqQueueConnectionFactory);

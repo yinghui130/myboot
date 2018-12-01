@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
+
 @Component
+@Data
 public class DirConfig {
 	@Value("${project.file.sendDir}")
 	private String sendDir;
@@ -12,10 +15,6 @@ public class DirConfig {
 	@Value("${project.file.backupDir}")
 	private String backupDir;
 	
-	public String getSendDir() {
-		return sendDir;
-	}
-	public String getBackupDir() {
-		return backupDir;
-	}
+	@Value("${project.enableReceiver}")
+	private Boolean enableReceiver;
 }
