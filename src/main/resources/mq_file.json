@@ -1,0 +1,16 @@
+{
+	"send": [
+		{
+			"fileType": "txt",
+			"mqccsid": 1381,
+			"mqchannel": "CLIENT.QM_APPLE",
+			"mqhost": "192.168.1.168",
+			"mqqueue": "Q1",
+			"mqqueuemanager": "QM_APPLE",
+			"mqreceivetimeout": 2000,
+			"mqport": 1414,
+			"mqusername": "Administrator",
+			"password": "lyh130182"
+		}
+	]
+}
