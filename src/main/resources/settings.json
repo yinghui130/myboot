@@ -1,0 +1,18 @@
+{
+	"backupDir": "备份目录",
+	"destList": [
+		{
+			"appCode": "test",
+			"workDir": "工作目录",
+			"sendFlag":true,
+			"mqHost": "host",
+			"mqPort": "port",
+			"mqQueue": "queue",
+			"mqChannel": "channel",
+			"mqCcsid": 1381,
+			"mqReceiveTimeout": 2000,
+			"mqUser": "user",
+			"mqPassword": "1235"
+		}
+	]
+}
