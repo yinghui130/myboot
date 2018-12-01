@@ -1,18 +1,16 @@
 {
-	"backupDir": "备份目录",
-	"destList": [
+	"send": [
 		{
-			"appCode": "test",
-			"workDir": "工作目录",
-			"sendFlag":true,
-			"mqHost": "host",
-			"mqPort": "port",
-			"mqQueue": "queue",
-			"mqChannel": "channel",
-			"mqCcsid": 1381,
-			"mqReceiveTimeout": 2000,
-			"mqUser": "user",
-			"mqPassword": "1235"
+			"fileType": "txt",
+			"mqccsid": 1381,
+			"mqchannel": "CLIENT.QM_APPLE",
+			"mqhost": "192.168.1.168",
+			"mqqueue": "Q1",
+			"mqqueuemanager": "QM_APPLE",
+			"mqreceivetimeout": 2000,
+			"mqport": 1414,
+			"mqusername": "Administrator",
+			"password": "lyh130182"
 		}
 	]
 }

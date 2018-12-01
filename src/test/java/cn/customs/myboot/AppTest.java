@@ -23,6 +23,7 @@ public class AppTest
 {
 	@Autowired
 	MqJsonConfig mqJsonConfig;
+
 	@Test
 	public void testJsonFile() throws Exception
 	{
