@@ -1,5 +1,4 @@
 project:
-  jsonConfigFilePath: D:\DevDir\java\myboot\src\main\resources\mq_file.json
   enableReceiver: true
   file:
     backupDir: d:\backup
